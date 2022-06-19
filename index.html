@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>上传demo</title>
+  <link rel="stylesheet/less" href="./css/style.less">
+
+  <!-- html中实时解析 less 依赖 -->
+  <script src="./js/less.js"></script>
+  <script>less.watch()</script>
+
+  <!-- tailwindcss 依赖 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="w-[375px] h-[667px] bg-[#f5f5f5] mx-auto mt-[20px] border overflow-hidden relative">
+      <div class="leading-[50px]">上传图片</div>
+      <div class="w-full p-[15px] box-border bg-[#fff] grid grid-cols-4 gap-[8px] select-none">
+        <div v-for="(item, index) in imgs" :key="index" class="relative">
+          <img :src="item" alt="" class="w-[80px] h-[80px] object-cover cursor-pointer" @click="imgClick(index)">
+          <img src="./images/empty.png" alt="" class="w-[16px] h-[16px] absolute top-[-8px] right-[-8px] cursor-pointer bg-[#fff] rounded-[50%] overflow-hidden"
+            @click.stop="emptyClick(index)">
+        </div>
+        <div class="w-[80px] h-[80px] bg-[#fff] border rounded-[3px] overflow-hidden relative">
+          <img src="./images/camera.png" alt="" />
+          <input type="file" accept="image/*" class="absolute top-0 left-0 right-0 bottom-0 opacity-0 z-10 cursor-pointer"
+            @change="upload" />
+        </div>
+      </div>
+      <!-- 点击预览图片 -->
+      <div ref="mask" class="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.6)] z-[999] select-none hidden"
+        :class="showPreview ? 'fadeIn' : 'fadeOut'"
+        @click="maskClick"
+        @touchstart="touchStart"
+        @touchend="touchEnd">
+        <div class="mt-[15px] text-center text-[#fff]">{{ previewIndex + 1 }} / {{ imgs.length }}</div>
+        <img :src="previewImg" alt="" class="w-full absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+      </div>
+    </div>
+  </div>
+
+  <!-- vue 依赖 -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="./js/compressorjs.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>
